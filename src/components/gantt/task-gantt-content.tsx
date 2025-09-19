@@ -55,6 +55,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   onDoubleClick,
   onClick,
   onDelete,
+  onContextMenu,
 }) => {
   const point = svg?.current?.createSVGPoint();
   const [xStep, setXStep] = useState(0);
@@ -190,8 +191,8 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
     rtl,
     setFailedTask,
     setGanttEvent,
+    tasks,
   ]);
-
   /**
    * Method is Start point of task change
    */
@@ -234,9 +235,11 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
         setGanttEvent({ action: "" });
       }
     } else if (action === "dblclick") {
-      !!onDoubleClick && onDoubleClick(task);
+      !!onDoubleClick && onDoubleClick(task, event);
     } else if (action === "click") {
-      !!onClick && onClick(task);
+      !!onClick && onClick(task, event);
+    } else if (action === "contextmenu") {
+      !!onContextMenu && onContextMenu(task, event);
     }
     // Change task event start
     else if (action === "move") {
