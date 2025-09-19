@@ -50,7 +50,7 @@ const App = () => {
     console.log("On progress change Id:" + task.id);
   };
 
-  const handleDblClick = (task: Task) => {
+  const handleDblClick = (task: Task, event?: React.MouseEvent | React.KeyboardEvent) => {
     let depMsg = "";
     if (task.dependencies && task.dependencies.length > 0) {
       depMsg = "\nDependencies:";
@@ -64,11 +64,13 @@ const App = () => {
     } else {
       depMsg = "\n(No dependencies)";
     }
+    console.log(event)
     alert(`On Double Click event Id: ${task.id}\nName: ${task.name}${depMsg}`);
   };
 
-  const handleClick = (task: Task) => {
+  const handleClick = (task: Task, event?: React.MouseEvent | React.KeyboardEvent) => {
     console.log("On Click event Id:" + task.id);
+    console.log(event)
   };
 
   const handleSelect = (task: Task, isSelected: boolean) => {
@@ -98,6 +100,10 @@ const App = () => {
         onClick={handleClick}
         onSelect={handleSelect}
         onExpanderClick={handleExpanderClick}
+        onContextMenu={(task, event) => {
+          console.log("On Right Click event Id:" + task.id);
+          console.log(event)
+        }}
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
       />

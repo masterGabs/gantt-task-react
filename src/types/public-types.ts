@@ -52,11 +52,15 @@ export interface EventOption {
   /**
    * Invokes on bar double click.
    */
-  onDoubleClick?: (task: Task) => void;
+  onDoubleClick?: (task: Task, event?: React.MouseEvent | React.KeyboardEvent) => void;
   /**
    * Invokes on bar click.
    */
-  onClick?: (task: Task) => void;
+  onClick?: (task: Task, event?: React.MouseEvent | React.KeyboardEvent) => void;
+  /**
+   * Invokes on bar right-click.
+   */
+  onContextMenu?: (task: Task, event?: React.MouseEvent | React.KeyboardEvent) => void;
   /**
    * Invokes on end and start time change. Chart undoes operation if method return false or error.
    */
