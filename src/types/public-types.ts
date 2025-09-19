@@ -10,6 +10,13 @@ export enum ViewMode {
   Year = "Year",
 }
 export type TaskType = "task" | "milestone" | "project";
+export type DependencyType = 'FS' | 'SS' | 'FF' | 'SF';
+
+export interface TaskDependency {
+  id: string; // id of the predecessor/successor task
+  type: DependencyType;
+}
+
 export interface Task {
   id: string;
   type: TaskType;
@@ -28,7 +35,7 @@ export interface Task {
   };
   isDisabled?: boolean;
   project?: string;
-  dependencies?: string[];
+  dependencies?: TaskDependency[];
   hideChildren?: boolean;
   displayOrder?: number;
 }

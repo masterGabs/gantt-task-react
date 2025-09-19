@@ -137,7 +137,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
         try {
           const result = await onDateChange(
             newChangedTask,
-            newChangedTask.barChildren
+            newChangedTask.barChildren.map(child => tasks[child.index])
           );
           if (result !== undefined) {
             operationSuccess = result;
@@ -149,7 +149,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
         try {
           const result = await onProgressChange(
             newChangedTask,
-            newChangedTask.barChildren
+            newChangedTask.barChildren.map(child => tasks[child.index])
           );
           if (result !== undefined) {
             operationSuccess = result;
@@ -265,11 +265,13 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
       <g className="arrows" fill={arrowColor} stroke={arrowColor}>
         {tasks.map(task => {
           return task.barChildren.map(child => {
+            const toTask = tasks[child.index];
             return (
               <Arrow
-                key={`Arrow from ${task.id} to ${tasks[child.index].id}`}
+                key={`Arrow from ${task.id} to ${toTask.id} (${child.type})`}
                 taskFrom={task}
-                taskTo={tasks[child.index]}
+                taskTo={toTask}
+                dependencyType={child.type}
                 rowHeight={rowHeight}
                 taskHeight={taskHeight}
                 arrowIndent={arrowIndent}
