@@ -51,7 +51,20 @@ const App = () => {
   };
 
   const handleDblClick = (task: Task) => {
-    alert("On Double Click event Id:" + task.id);
+    let depMsg = "";
+    if (task.dependencies && task.dependencies.length > 0) {
+      depMsg = "\nDependencies:";
+      for (const dep of task.dependencies) {
+        if (typeof dep === 'string') {
+          depMsg += `\n- ${dep}`;
+        } else {
+          depMsg += `\n- ${dep.type} → ${dep.id}`;
+        }
+      }
+    } else {
+      depMsg = "\n(No dependencies)";
+    }
+    alert(`On Double Click event Id: ${task.id}\nName: ${task.name}${depMsg}`);
   };
 
   const handleClick = (task: Task) => {

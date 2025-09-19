@@ -46,14 +46,19 @@ export const convertToBarTasks = (
     );
   });
 
-  // set dependencies
+  // set dependencies (now with type)
   barTasks = barTasks.map(task => {
-    const dependencies = task.dependencies || [];
+    const dependencies = (task.dependencies || []);
     for (let j = 0; j < dependencies.length; j++) {
-      const dependence = barTasks.findIndex(
-        value => value.id === dependencies[j]
-      );
-      if (dependence !== -1) barTasks[dependence].barChildren.push(task);
+      const dep = dependencies[j];
+      const dependenceIdx = barTasks.findIndex(value => value.id === dep.id);
+      if (dependenceIdx !== -1) {
+        // Add to barChildren as an object with index and type
+        barTasks[dependenceIdx].barChildren.push({
+          index: task.index,
+          type: dep.type,
+        });
+      }
     }
     return task;
   });
