@@ -380,15 +380,40 @@ export const Calendar: React.FC<CalendarProps> = ({
     case ViewMode.Hour:
       [topValues, bottomValues] = getCalendarValuesForHour();
   }
+  const isDayBasedView = [
+    ViewMode.Month,
+    ViewMode.Week,
+    ViewMode.Day,
+    ViewMode.QuarterDay,
+    ViewMode.HalfDay,
+    ViewMode.Hour,
+  ].includes(dateSetup.viewMode);
   return (
     <g className="calendar" fontSize={fontSize} fontFamily={fontFamily}>
-      <rect
-        x={0}
-        y={0}
-        width={columnWidth * dateSetup.dates.length}
-        height={headerHeight}
-        className={styles.calendarHeader}
-      />
+      {isDayBasedView ? (
+        dateSetup.dates.map((date, i) => (
+          <rect
+            key={i}
+            x={columnWidth * i}
+            y={0}
+            width={columnWidth}
+            height={headerHeight}
+            className={
+              date.getDay() === 0 || date.getDay() === 6
+                ? styles.weekendHeader
+                : styles.calendarHeader
+            }
+          />
+        ))
+      ) : (
+        <rect
+          x={0}
+          y={0}
+          width={columnWidth * dateSetup.dates.length}
+          height={headerHeight}
+          className={styles.calendarHeader}
+        />
+      )}
       {bottomValues} {topValues}
     </g>
   );
