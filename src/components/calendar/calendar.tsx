@@ -381,8 +381,6 @@ export const Calendar: React.FC<CalendarProps> = ({
       [topValues, bottomValues] = getCalendarValuesForHour();
   }
   const isDayBasedView = [
-    ViewMode.Month,
-    ViewMode.Week,
     ViewMode.Day,
     ViewMode.QuarterDay,
     ViewMode.HalfDay,
