@@ -13,3 +13,7 @@
 .gridTick {
   stroke: #e6e4e4;
 }
+
+.weekendColumn {
+  fill: #ff000028;
+}

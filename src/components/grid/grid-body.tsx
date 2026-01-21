@@ -1,5 +1,6 @@
 import React, { ReactChild } from "react";
 import { Task } from "../../types/public-types";
+import { ViewMode } from "../../types/public-types";
 import { addToDate } from "../../helpers/date-helper";
 import styles from "./grid.module.css";
 
@@ -11,6 +12,7 @@ export type GridBodyProps = {
   columnWidth: number;
   todayColor: string;
   rtl: boolean;
+  viewMode: ViewMode;
 };
 export const GridBody: React.FC<GridBodyProps> = ({
   tasks,
@@ -20,6 +22,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
   columnWidth,
   todayColor,
   rtl,
+  viewMode,
 }) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
@@ -61,6 +64,13 @@ export const GridBody: React.FC<GridBodyProps> = ({
   let tickX = 0;
   const ticks: ReactChild[] = [];
   let today: ReactChild = <rect />;
+  const weekends: ReactChild[] = [];
+  const isDayBasedView = [
+    ViewMode.Day,
+    ViewMode.QuarterDay,
+    ViewMode.HalfDay,
+    ViewMode.Hour,
+  ].includes(viewMode);
   for (let i = 0; i < dates.length; i++) {
     const date = dates[i];
     ticks.push(
@@ -114,6 +124,18 @@ export const GridBody: React.FC<GridBodyProps> = ({
         />
       );
     }
+    if (isDayBasedView && (date.getDay() === 0 || date.getDay() === 6)) {
+      weekends.push(
+        <rect
+          key={`weekend-${date.getTime()}`}
+          x={tickX}
+          y={0}
+          width={columnWidth}
+          height={y}
+          className={styles.weekendColumn}
+        />
+      );
+    }
     tickX += columnWidth;
   }
   return (
@@ -121,6 +143,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
       <g className="rows">{gridRows}</g>
       <g className="rowLines">{rowLines}</g>
       <g className="ticks">{ticks}</g>
+      <g className="weekends">{weekends}</g>
       <g className="today">{today}</g>
     </g>
   );

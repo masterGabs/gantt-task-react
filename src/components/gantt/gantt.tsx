@@ -397,6 +397,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     dates: dateSetup.dates,
     todayColor,
     rtl,
+    viewMode: dateSetup.viewMode,
   };
   const calendarProps: CalendarProps = {
     dateSetup,
